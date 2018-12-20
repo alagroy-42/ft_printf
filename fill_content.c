@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 18:51:46 by alagroy-          #+#    #+#             */
-/*   Updated: 2018/12/18 19:38:44 by alagroy-         ###   ########.fr       */
+/*   Updated: 2018/12/20 16:13:23 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "ft_printf.h"
 #include "libft.h"
 #include <stdio.h> //a enlever
+
 t_flags	ft_fill_content(t_flags rtrn, va_list ap)
 {
 	intmax_t arg;
@@ -40,22 +41,19 @@ t_flags	ft_fill_content(t_flags rtrn, va_list ap)
 		else if (rtrn.type == 'X')
 			rtrn.content = ft_itoa_base(arg, 16);
 	}
-	else
-		rtrn = ft_fill_content2(rtrn, ap);
-	rtrn = ft_fill_options(rtrn);
+	rtrn = ft_fill_content2(rtrn, ap);
 	return (rtrn);
 }
 
 t_flags	ft_fill_content2(t_flags rtrn, va_list ap)
 {
-	intmax_t arg;
+	intmax_t	arg;
+	char		*args;
 
 	if (ft_strchr("di", rtrn.type))
 	{
-		if (rtrn.convert == h)
-			arg = (short int)va_arg(ap, int);
-		else if (rtrn.convert == hh)
-			arg = (signed char)va_arg(ap, int);
+		if (rtrn.convert == h || rtrn.convert == hh)
+			arg = va_arg(ap, int);
 		else if (rtrn.convert == l)
 			arg = va_arg(ap, long int);
 		else if (rtrn.convert == ll)
@@ -64,38 +62,37 @@ t_flags	ft_fill_content2(t_flags rtrn, va_list ap)
 			arg = va_arg(ap, int);
 		rtrn.content = ft_itoa_max(arg);
 	}
-	else
-		rtrn = ft_fill_content3(rtrn, ap);
+	if (rtrn.type == 's')
+	{
+		args = va_arg(ap, char *);
+		rtrn.content = !rtrn.size_float_status ? ft_strdup(args) :
+			ft_strndup(args, rtrn.size_float);
+	}
+	rtrn = ft_fill_content3(rtrn, ap);
+	rtrn = ft_fill_options(rtrn);
 	return (rtrn);
 }
 
 t_flags	ft_fill_content3(t_flags rtrn, va_list ap)
 {
-	char 		argc;
-	char		*args;
+	char		argc;
 	long		argp;
 	long double	argf;
 
-	if (ft_strchr("csp", rtrn.type))
+	if (ft_strchr("cp", rtrn.type))
 	{
 		if (rtrn.type == 'c')
 			argc = (char)va_arg(ap, int);
-		else if (rtrn.type == 's')
-			args = va_arg(ap, char *);
 		else if (rtrn.type == 'p')
 			argp = va_arg(ap, long);
 		if (rtrn.type == 'c')
 			rtrn.content = ft_strdup(&argc);
-		else if (rtrn.type == 's')
-			rtrn.content = ft_strdup(args);
 		else if (rtrn.type == 'p')
 			rtrn.content = ft_strjoin("0x", ft_itoa_base(argp, 16));
 	}
 	else if (rtrn.type == 'f')
 	{
-		if (rtrn.convert == none)
-			argf = va_arg(ap, double);
-		else if (rtrn.convert == l)
+		if (rtrn.convert == none || rtrn.convert == l)
 			argf = va_arg(ap, double);
 		else
 			argf = va_arg(ap, long double);
@@ -118,8 +115,9 @@ t_flags	ft_find_nb_char(t_flags rtrn)
 	numbers = ft_itoa(rtrn.min_size);
 	nb_char += (numbers[0] == '0') ? 0 : ft_strlen(numbers);
 	nb_char += (rtrn.type) ? 1 : 0;
-	numbers = ft_itoa(rtrn.size_float);
-	nb_char += (numbers[0] == '6') ? 0 : ft_strlen(numbers);
+	numbers = rtrn.size_float_status ? ft_itoa(rtrn.size_float) : 0;
+	nb_char += (numbers == NULL) ? 0 : ft_strlen(numbers);
+	nb_char += rtrn.size_float_status;
 	nb_char += (rtrn.convert == h) ? 1 : 0;
 	nb_char += (rtrn.convert == hh) ? 2 : 0;
 	nb_char += (rtrn.convert == l) ? 1 : 0;
@@ -133,5 +131,13 @@ t_flags	ft_fill_options(t_flags rtrn)
 {
 	if (rtrn.hashtag)
 		rtrn = ft_hashtag(rtrn);
+	if (rtrn.space)
+		rtrn = ft_space(rtrn);
+	if (rtrn.plus)
+		rtrn = ft_plus(rtrn);
+	if (rtrn.minus)
+		rtrn = ft_minus(rtrn);
+	else
+		rtrn = ft_zero_min_size(rtrn);
 	return (rtrn);
 }

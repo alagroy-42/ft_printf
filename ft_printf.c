@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 18:13:18 by alagroy-          #+#    #+#             */
-/*   Updated: 2018/12/18 19:38:42 by alagroy-         ###   ########.fr       */
+/*   Updated: 2018/12/20 15:53:21 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		ft_printf(const char *format, ...)
 	while (rtrn[++i])
 		if (rtrn[i] == '%')
 			rtrn = ft_fill_format(rtrn, rtrn + i, ap);
-	ft_putendl(rtrn);
+	ft_putstr(rtrn);
 	va_end(ap);
 	return (ft_strlen(rtrn));
 }
@@ -70,10 +70,13 @@ t_flags	ft_fill_struct(char *flags, va_list ap)
 		rtrn.minus = (flags[i] == '-' || rtrn.minus) ? 1 : 0;
 		rtrn.zero = (flags[i] == '0' || rtrn.zero) ? 1 : 0;
 	}
-	if (flags[i - 1] != '.')
+	if (flags[i] != '.') //verifier avec des flags
 		rtrn.min_size = ft_atoi(flags + i);
 	else
-		rtrn.size_float = ft_atoi(flags + i);
+	{
+		rtrn.size_float = ft_atoi(flags + i + 1);
+		rtrn.size_float_status = 1;
+	}
 	rtrn = ft_fill_convert(flags + i, rtrn);
 	rtrn = ft_fill_type(flags + i, rtrn);
 	rtrn = ft_fill_content(rtrn, ap);
@@ -102,7 +105,8 @@ t_flags	ft_fill_type(char *flags, t_flags rtrn)
 	int	i;
 
 	i = 0;
-	while (ft_isdigit(flags[i]) || ft_strchr("hlL", flags[i]))
+	while (ft_isdigit(flags[i]) || ft_strchr("hlL", flags[i])
+			|| flags[i] == '.')
 		i++;
 	if (ft_strchr("diouxXcspf", flags[i]))
 		rtrn.type = flags[i];

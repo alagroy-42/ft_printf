@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 17:28:19 by alagroy-          #+#    #+#             */
-/*   Updated: 2018/12/18 19:16:21 by alagroy-         ###   ########.fr       */
+/*   Updated: 2018/12/20 14:45:38 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_flags	ft_init_flags(void)
 	rtrn.zero = 0;
 	rtrn.min_size = 0;
 	rtrn.size_float = 6;
+	rtrn.size_float_status = 0;
 	rtrn.convert = none;
 	rtrn.type = '\0';
 	rtrn.nb_char = 0;

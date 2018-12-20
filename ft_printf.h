@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 18:06:44 by alagroy-          #+#    #+#             */
-/*   Updated: 2018/12/18 19:24:59 by alagroy-         ###   ########.fr       */
+/*   Updated: 2018/12/20 15:46:11 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct	s_flags
 	int			zero;
 	int			min_size;
 	int			size_float;
+	int			size_float_status;
 	t_convert	convert;
 	char		type;
 	int			nb_char;
@@ -52,6 +53,10 @@ char			*ft_fill_format(char *copy, char *flags, va_list ap);
 int				ft_power(int nb, int pow);
 int				ft_isoption(char c);
 t_flags			ft_hashtag(t_flags rtrn);
+t_flags			ft_space(t_flags rtrn);
+t_flags			ft_plus(t_flags rtrn);
+t_flags			ft_minus(t_flags rtrn);
+t_flags			ft_zero_min_size(t_flags rtrn);
 t_flags			ft_fill_options(t_flags rtrn);
 t_flags			ft_fill_struct(char *flags, va_list ap);
 t_flags			ft_fill_convert(char *convert, t_flags rtrn);
