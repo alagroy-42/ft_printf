@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/18 19:01:37 by alagroy-          #+#    #+#             */
-/*   Updated: 2018/12/20 16:13:20 by alagroy-         ###   ########.fr       */
+/*   Updated: 2018/12/20 18:01:02 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,14 @@ t_flags	ft_minus(t_flags rtrn)
 {
 	int		i;
 	char	*min_size;
-
+	int		size;
+	
+	size = rtrn.min_size - ft_strlen(rtrn.content);
 	i = -1;
-	if (rtrn.min_size <= (int)ft_strlen(rtrn.content))
+	if (size < 0)
 		return (rtrn);
-	min_size = ft_strnew(rtrn.min_size - ft_strlen(rtrn.content));
-	while (min_size[++i])
+	min_size = ft_strnew(size);
+	while (++i < size)
 		min_size[i] = ' ';
 	rtrn.content = ft_strjoin(rtrn.content, min_size);
 	return (rtrn);
@@ -56,13 +58,13 @@ t_flags	ft_zero_min_size(t_flags rtrn)
 	int		i;
 	char	*min_size;
 	int		size;
-// modifier avec size parce que strnew ne mets que des '\0'
-	size = 
+	
+	size = rtrn.min_size - ft_strlen(rtrn.content);
 	i = -1;
-	if (rtrn.min_size <= (int)ft_strlen(rtrn.content))
+	if (size < 0)
 		return (rtrn);
-	min_size = ft_strnew(rtrn.min_size - ft_strlen(rtrn.content));
-	while ()
+	min_size = ft_strnew(size);
+	while (++i < size)
 		min_size[i] = rtrn.zero ? '0' : ' ';
 	rtrn.content = ft_strjoin(min_size, rtrn.content);
 	return (rtrn);

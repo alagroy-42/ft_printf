@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 18:06:44 by alagroy-          #+#    #+#             */
-/*   Updated: 2018/12/20 15:46:11 by alagroy-         ###   ########.fr       */
+/*   Updated: 2018/12/20 19:27:03 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct	s_flags
 int				ft_printf(const char *format, ...);
 char			*ft_itoa_base(intmax_t nb, int base);
 char			*ft_itoa_base_lowcase(intmax_t nb, int base);
-char			*ft_itoa_max(long long int nb);
+char			*ft_itoa_max(long double nb);
 char			*ft_itoa_float(long double nb, t_flags rtrn);
 char			*ft_insert_str(char *s, char *insert, int index);
 char			*ft_delete_flags(char *s, int index, int nb_char);
@@ -59,9 +59,9 @@ t_flags			ft_minus(t_flags rtrn);
 t_flags			ft_zero_min_size(t_flags rtrn);
 t_flags			ft_fill_options(t_flags rtrn);
 t_flags			ft_fill_struct(char *flags, va_list ap);
-t_flags			ft_fill_convert(char *convert, t_flags rtrn);
+t_flags			ft_fill_convert(char *convert, t_flags rtrn, va_list ap);
 t_flags			ft_init_flags(void);
-t_flags			ft_fill_type(char *flags, t_flags rtrn);
+t_flags			ft_fill_type(char *flags, t_flags rtrn, va_list ap);
 t_flags			ft_fill_content(t_flags rtrn, va_list ap);
 t_flags			ft_fill_content2(t_flags rtrn, va_list ap);
 t_flags			ft_fill_content3(t_flags rtrn, va_list ap);

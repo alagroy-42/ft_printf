@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 18:13:18 by alagroy-          #+#    #+#             */
-/*   Updated: 2018/12/20 15:53:21 by alagroy-         ###   ########.fr       */
+/*   Updated: 2018/12/20 19:26:58 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ char	*ft_fill_format(char *copy, char *flags, va_list ap)
 	t_flags current;
 
 	index = flags - copy;
-	current = ft_init_flags();
 	if (flags[1] && flags[1] == '%')
 		rtrn = ft_double_percent(copy, flags);
 	else
@@ -70,20 +69,21 @@ t_flags	ft_fill_struct(char *flags, va_list ap)
 		rtrn.minus = (flags[i] == '-' || rtrn.minus) ? 1 : 0;
 		rtrn.zero = (flags[i] == '0' || rtrn.zero) ? 1 : 0;
 	}
-	if (flags[i] != '.') //verifier avec des flags
-		rtrn.min_size = ft_atoi(flags + i);
-	else
+	if (ft_isdigit(flags[i]))
 	{
-		rtrn.size_float = ft_atoi(flags + i + 1);
+		rtrn.min_size = ft_atoi(flags + i);
+		i += ft_strlen(ft_itoa(rtrn.min_size));
+	}
+	if (flags[i] == '.')
+	{
+		rtrn.size_float = ft_atoi(flags + i);
 		rtrn.size_float_status = 1;
 	}
-	rtrn = ft_fill_convert(flags + i, rtrn);
-	rtrn = ft_fill_type(flags + i, rtrn);
-	rtrn = ft_fill_content(rtrn, ap);
+	rtrn = ft_fill_convert(flags + i, rtrn, ap);
 	return (rtrn);
 }
 
-t_flags	ft_fill_convert(char *convert, t_flags rtrn)
+t_flags	ft_fill_convert(char *convert, t_flags rtrn, va_list ap)
 {	
 	while (ft_isdigit(convert[0]))
 		convert++;
@@ -97,10 +97,10 @@ t_flags	ft_fill_convert(char *convert, t_flags rtrn)
 		: rtrn.convert;
 	rtrn.convert = (!ft_strncmp(convert, "ll", 2) && rtrn.convert == none) ? ll
 		: rtrn.convert;
-	return (rtrn);
+	return (rtrn = ft_fill_type(convert, rtrn, ap));
 }
 
-t_flags	ft_fill_type(char *flags, t_flags rtrn)
+t_flags	ft_fill_type(char *flags, t_flags rtrn, va_list ap)
 {
 	int	i;
 
@@ -110,5 +110,5 @@ t_flags	ft_fill_type(char *flags, t_flags rtrn)
 		i++;
 	if (ft_strchr("diouxXcspf", flags[i]))
 		rtrn.type = flags[i];
-	return (rtrn);
+	return (rtrn = ft_fill_content(rtrn, ap));
 }

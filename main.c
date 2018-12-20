@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/13 17:04:07 by alagroy-          #+#    #+#             */
-/*   Updated: 2018/12/20 16:13:25 by alagroy-         ###   ########.fr       */
+/*   Updated: 2018/12/20 17:59:33 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ int	main(void)
 	char	*test;
 
 	test = strdup("test .2");
-	ft_printf("test .2 : %024s\n", test);
+	ft_printf("test .2 : %-24.2f\n", 1.34333333135);
 	return (0);
 }

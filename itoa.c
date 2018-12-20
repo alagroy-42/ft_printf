@@ -6,7 +6,7 @@
 /*   By: alagroy- <alagroy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 18:24:16 by alagroy-          #+#    #+#             */
-/*   Updated: 2018/12/20 14:47:59 by alagroy-         ###   ########.fr       */
+/*   Updated: 2018/12/20 19:27:00 by alagroy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "ft_printf.h"
 #include "libft.h"
 
-char	*ft_itoa_max(long long int nb)
+char	*ft_itoa_max(long double nb)
 {
 	int			nb_digit;
 	intmax_t	tmp;
